@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>History Router</title>
+</head>
+
+<body>
+  <nav>
+    <a class="link" href="/last">上一页</a>
+    <a class="link" href="/">主页</a>
+    <a class="link" href="/next">下一页</a>
+  </nav>
+  <section id="home">
+    <p>这是主页</p>
+  </section>
+  <section id="last">
+    <p>这是上一页</p>
+  </section>
+  <section id="next">
+    <p>这是下一页</p>
+  </section>
+  <script>
+    class Router {
+      constructor({ mode, routes }) {
+        this.routes = routes
+        window.onpopstate = () => this.setPage()
+        document.querySelectorAll('.link').forEach(node => {
+          node.addEventListener('click', (e) => {
+            this.setPage(node.pathname)
+            e.preventDefault()
+          })
+        })
+        this.setPage()
+      }
+      setPage(path = '/') {
+        history.pushState({}, "", path)
+        this.routes.forEach(route => route.component.style.display = "none")
+        let route = this.routes.find(route => route.path === path)
+          || this.routes[this.routes.length - 1]
+        route.component.style.display = "block"
+      }
+    }
+    new Router({
+      mode: 'hash',
+      routes: [
+        {
+          path: '/',
+          component: document.querySelector('#home')
+        },
+        {
+          path: '/last',
+          component: document.querySelector('#last')
+        },
+        {
+          path: '/next',
+          component: document.querySelector('#next')
+        },
+      ]
+    })
+  </script>
+</body>
+
+</html>
