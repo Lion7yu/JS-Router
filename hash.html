@@ -5,23 +5,23 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>JS Router</title>
+  <title>Hash Router</title>
 </head>
 
 <body>
   <nav>
-    <a href="/" class="link">home</a>
-    <a href="/a" class="link">a</a>
-    <a href="/c" class="link">c</a>
+    <a class="link" href="/last">上一页</a>
+    <a class="link" href="/">主页</a>
+    <a class="link" href="/next">下一页</a>
   </nav>
   <section id="home">
-    <p>This is a home page</p>
+    <p>这是主页</p>
   </section>
-  <section id="a">
-    <p>This is a page</p>
+  <section id="last">
+    <p>这是上一页</p>
   </section>
-  <section id="default">
-    <h1>404</h1>
+  <section id="next">
+    <p>这是下一页</p>
   </section>
 </body>
 <script>
@@ -54,11 +54,12 @@
         component: document.querySelector('#home')
       },
       {
-        path: '/a',
-        component: document.querySelector('#a')
+        path: '/last',
+        component: document.querySelector('#last')
       },
       {
-        component: document.querySelector('#default')
+        path: '/next',
+        component: document.querySelector('#next')
       },
     ]
   })
