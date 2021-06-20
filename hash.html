@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JS Router</title>
+</head>
+
+<body>
+  <nav>
+    <a href="/" class="link">home</a>
+    <a href="/a" class="link">a</a>
+    <a href="/c" class="link">c</a>
+  </nav>
+  <section id="home">
+    <p>This is a home page</p>
+  </section>
+  <section id="a">
+    <p>This is a page</p>
+  </section>
+  <section id="default">
+    <h1>404</h1>
+  </section>
+</body>
+<script>
+  class Router {
+    constructor({ mode, routes }) {
+      this.routes = routes
+      window.onhashchange = () => this.setPage()
+      document.querySelectorAll('.link').forEach(node => {
+        node.addEventListener('click', (e) => {
+          location.hash = node.pathname
+          e.preventDefault()
+        })
+      })
+      this.setPage()
+    }
+    setPage() {
+      this.routes.forEach(route =>
+        route.component.style.display = "none")
+      let route = this.routes.find(route => '#' +
+        route.path === location.hash) ||
+        this.routes[this.routes.length - 1]
+      route.component.style.display = "block"
+    }
+  }
+  new Router({
+    mode: 'hash',
+    routes: [
+      {
+        path: '/',
+        component: document.querySelector('#home')
+      },
+      {
+        path: '/a',
+        component: document.querySelector('#a')
+      },
+      {
+        component: document.querySelector('#default')
+      },
+    ]
+  })
+</script>
+
+</html>
